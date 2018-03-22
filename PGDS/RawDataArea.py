@@ -17,11 +17,4 @@ class RawDataArea(Gtk.Window):
         vbox_right.set_homogeneous(False)
 
         label = Gtk.Label("Raw data shall be displayed here")
-        vbox_left.pack_start(label, True, True, 0)
-      
-
-       
-win = RawDataArea()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+vbox_left.pack_start(label, True, True, 0)
