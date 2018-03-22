@@ -69,10 +69,4 @@ class StartField(Gtk.Window):
         hbox.pack_start(dependencyPatternLabel, True, True, 0)
         hbox.pack_start(dependencyPatternEntry, True, True, 0)
  
-        listbox.add(row)
-
-
-win = StartField()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+listbox.add(row)
