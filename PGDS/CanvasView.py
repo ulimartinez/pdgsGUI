@@ -1,7 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
-gi.require_version('GooCanvas', '2.0')
-from gi.repository import Gtk, Gdk, GdkPixbuf, GooCanvas
+from gi.repository import Gtk, Gdk, GdkPixbuf
 from StartField import StartField, Field
 from EndField import EndField
 from ReferenceListWin import ReferenceListWin
@@ -101,10 +100,10 @@ class DragSourceIconView(Gtk.IconView):
         self.get_model().append([text, pixbuf, func])
 
 
-class DropArea(GooCanvas.Canvas):
+class DropArea(Gtlk.DrawingArea):
 
     def __init__(self):
-        GooCanvas.Canvas.__init__(self)
+        Gtk.DrawingArea.__init__(self)
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
         self.nodes = []
         self.connect("drag-data-received", self.on_drag_data_received)
