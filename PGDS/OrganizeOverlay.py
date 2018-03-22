@@ -73,9 +73,3 @@ class OrganizeView(Gtk.Window):
         # print(self.liststore[path].path)
         # for row in self.liststore:
         #     row[2] = (row.path == selected_path)
-
-
-win = OrganizeView()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()

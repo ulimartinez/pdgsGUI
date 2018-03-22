@@ -101,9 +101,4 @@ class ProjectImporter(Gtk.Window):
        print "Import Clicked"
 
     def on_cancel_clicked(self, widget):
-       print "Cancel Clicked"
-
-win = ProjectImporter()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+        print "Cancel Clicked"
