@@ -23,10 +23,11 @@ class PCAPOverlayDia(Gtk.Dialog):
         pcapNameBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL,spacing=0)
         row01.add(pcapNameBox)
         pcapNameL = Gtk.Label("PCAP Name:")
-        pcapNameE = Gtk.Entry()
+        self.pcapNameE = Gtk.Entry()
         browseB = Gtk.Button("Browse")
+        browseB.connect("clicked", self.on_browse_clicked)
         pcapNameBox.pack_start(pcapNameL,True,True,5)
-        pcapNameBox.pack_start(pcapNameE,True,True,5)
+        pcapNameBox.pack_start(self.pcapNameE,True,True,5)
         pcapNameBox.pack_start(browseB,True,True,5)
         listBox.add(row01)
         
@@ -46,9 +47,9 @@ class PCAPOverlayDia(Gtk.Dialog):
         cancelButton = Gtk.Button("Cancel")
         cancelButton.connect("clicked", self.on_cancel_clicked)
         emptyLabel02 = Gtk.Label("")
-        buttonsBox.pack_start(emptyLabel02, False, True, 80)
-        buttonsBox.pack_start(openButton, False, True, 5)
-        buttonsBox.pack_start(cancelButton, False, True, 5)
+        buttonsBox.pack_start(emptyLabel02, True, True, 80)
+        buttonsBox.pack_start(openButton, True, True, 5)
+        buttonsBox.pack_start(cancelButton, True, True, 5)
         listBox.add(row03)
 
         self.show_all()
@@ -58,23 +59,59 @@ class PCAPOverlayDia(Gtk.Dialog):
     def on_cancel_clicked(self, widget):
         print("Cancel button was clicked. Dialog window closing")
         self.destroy()
-            
 
-class PCAPOverlayWin(Gtk.Window):
+    def on_browse_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog("Please choose a file", self,
+            Gtk.FileChooserAction.OPEN,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
-    def __init__(self):
-        Gtk.Window.__init__(self, title="New Project")
+        self.add_filters(dialog)
 
-        button = Gtk.Button("Open dialog")
-        button.connect("clicked", self.on_button_clicked)
-
-        self.add(button)
-
-    def on_button_clicked(self, widget):
-        dialog = PCAPOverlayDia(self)
         response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("Open clicked")
+            path = dialog.get_filename()
+            self.pcapNameE.set_text(path)
+            
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+            dialog.destroy()
 
         dialog.destroy()
+
+    def add_filters(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+
+        filter_py = Gtk.FileFilter()
+        filter_py.set_name("Python files")
+        filter_py.add_mime_type("text/x-python")
+        dialog.add_filter(filter_py)
+
+        filter_any = Gtk.FileFilter()
+        filter_any.set_name("Any files")
+        filter_any.add_pattern("*")
+        dialog.add_filter(filter_any)
+
+            
+##class PCAPOverlayWin(Gtk.Window):
+##
+##    def __init__(self):
+##        Gtk.Window.__init__(self, title="New Project")
+##
+##        button = Gtk.Button("Open dialog")
+##        button.connect("clicked", self.on_button_clicked)
+##
+##        self.add(button)
+##
+##    def on_button_clicked(self, widget):
+##        dialog = PCAPOverlayDia(self)
+##        response = dialog.run()
+##
+##        dialog.destroy()
 
 win = PCAPOverlayWin()
 win.connect("delete-event", Gtk.main_quit)
