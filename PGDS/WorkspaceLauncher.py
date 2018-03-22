@@ -51,8 +51,3 @@ class WorkspaceLauncher(Gtk.Window):
         dir = chooser.get_current_folder()
         if dir is not None:
             self.text.set_text(dir)
-
-##win = WorkspaceLauncher()
-##win.connect("delete-event", Gtk.main_quit)
-##win.show_all()
-##Gtk.main()
