@@ -26,13 +26,13 @@ class ProjectImporter(Gtk.Window):
 
 
 
-       
+
         projectLabel = Gtk.Label("Project")
         projectEntry = Gtk.Entry();
         projectEntry.set_text("Project Name")
         browseButton = Gtk.Button("Browse")
         browseButton.connect("clicked", self.on_file_clicked)
-        
+
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
@@ -43,13 +43,13 @@ class ProjectImporter(Gtk.Window):
         listbox.add(row)
 
 
-        
+
         importButton = Gtk.Button("Import")
         cancelButton = Gtk.Button("Cancel")
         emptyLabel = Gtk.Label("")
         importButton.connect("clicked", self.on_import_clicked)
         cancelButton.connect("clicked", self.on_cancel_clicked)
-      
+
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         row.add(hbox)
@@ -61,9 +61,9 @@ class ProjectImporter(Gtk.Window):
 
 
 
-       
-       
-     
+
+
+
     def on_file_clicked(self, widget):
         dialog = Gtk.FileChooserDialog("Please choose a file", self,
             Gtk.FileChooserAction.OPEN,
@@ -99,9 +99,10 @@ class ProjectImporter(Gtk.Window):
 
     def on_import_clicked(self, widget):
        print "Import Clicked"
+       self.hide()
 
     def on_cancel_clicked(self, widget):
-       Gtk.main_quit()
+       self.hide()
 
 # win = ProjectImporter()
 # win.connect("delete-event", Gtk.main_quit)
