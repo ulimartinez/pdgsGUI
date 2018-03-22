@@ -40,8 +40,8 @@ class ProjectNavigatorWindow(Gtk.Window):
         grid.attach(self.p_name, 1, 1, 1, 1)
 
 
-win = ProjectNavigatorWindow()
-
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##win = ProjectNavigatorWindow()
+##
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
