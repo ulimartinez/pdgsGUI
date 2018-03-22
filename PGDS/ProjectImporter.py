@@ -103,7 +103,7 @@ class ProjectImporter(Gtk.Window):
     def on_cancel_clicked(self, widget):
        Gtk.main_quit()
 
-win = ProjectImporter()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+# win = ProjectImporter()
+# win.connect("delete-event", Gtk.main_quit)
+# win.show_all()
+# Gtk.main()
