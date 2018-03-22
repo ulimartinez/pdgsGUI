@@ -1,4 +1,10 @@
 from DS_Overlay import DSOverlay
+from NewProjectWindow import NewProjectDialog
+from OrganizeOverlay import OrganizeView
+from PCAPOverlayDia import PCAPOverlayDia
+from ProjectExporter import ProjectExportWindow
+from ProjectImporter import ProjectImporter
+from WorkspaceLauncher import WorkspaceLauncher
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -58,21 +64,32 @@ class ButtonWindow(Gtk.Window):
 
     def on_create_proj_clicked(self, button):
         print("\"Create Project\" button was clicked")
+        dialog = NewProjectDialog(self)
+        response = dialog.run()
+
+        dialog.destroy()
 
     def on_save_proj_clicked(self, button):
         print("\"Save Project\" button was clicked")
 
     def on_close_proj_clicked(self, button):
         print("\"Close button\" button was clicked")
+        Gtk.main_quit()
 
     def on_switch_wrkspace_clicked(self, button):
         print("\"Switch Workspace\" button was clicked")
+        dialog = WorkspaceLauncher()
+        response = dialog.show_all()
 
     def on_import_proj_clicked(self, button):
         print("\"Import Project\" button was clicked")
+        dialog = ProjectImporter()
+        response = dialog.show_all()
 
     def on_export_proj_clicked(self, button):
         print("\"Export Project\" button was clicked")
+        dialog = ProjectExportWindow()
+        response = dialog.show_all()
 
     def on_generate_ds_clicked(self, button):
         print("\"Generate Dissector Script\" button was clicked")
@@ -89,9 +106,15 @@ class ButtonWindow(Gtk.Window):
 
     def on_organize_views_clicked(self, button):
         print("\"Organize Views\" button was clicked")
+        dialog = OrganizeView()
+        response = dialog.show_all()
 
     def on_open_pcap_clicked(self, button):
         print("\"Open PCAP\" button was clicked")
+        dialog = PCAPOverlayDia(self)
+        response = dialog.run()
+
+        dialog.destroy()
 
 
 win = ButtonWindow()
