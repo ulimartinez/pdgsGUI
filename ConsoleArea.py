@@ -13,9 +13,9 @@ class FileChooserWindow(Gtk.Window):
         grid = Gtk.Grid()
         self.add(grid)
 
-
-win = FileChooserWindow()
-
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##
+##win = FileChooserWindow()
+##
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
