@@ -2,7 +2,10 @@ import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GooCanvas', '2.0')
 from gi.repository import Gtk, Gdk, GdkPixbuf, GooCanvas
-from StartField import StartField
+from StartField import StartField, Field
+from EndField import EndField
+from ReferenceListWin import ReferenceListWin
+from PackeInfoField import PacketInfoField
 
 
 (TARGET_ENTRY_TEXT, TARGET_ENTRY_PIXBUF) = range(2)
@@ -37,7 +40,7 @@ class CanvasView(Gtk.Window):
         self.field_icon.add_item("8 byte field", "help-about", "StartField")
         self.field_icon.add_item("16 byte field", "help-about", "StartField")
         self.field_icon.add_item("N byte field", "help-about", "StartField")
-        self.field_icon.add_item("Reference List", "help-about", "StartField")
+        self.field_icon.add_item("Reference list", "help-about", "StartField")
         self.field_icon.add_item("Packet Info", "help-about", "StartField")
         self.field_icon.add_item("End field", "edit-copy", "StartField")
 
@@ -113,12 +116,24 @@ class DropArea(GooCanvas.Canvas):
         if "Start" in text:
             field = StartField()
             field.show_all()
+        elif "End" in text:
+            field = EndField()
+            field.show_all()
+        elif "field" in text:
+            field = Field()
+            field.show_all()
+        elif "list" in text:
+            field = ReferenceListWin()
+            field.show_all()
+        elif "Info" in text:
+            field = PacketInfoField()
+            field.show_all()
         print("Received text: %s" % text)
 
     def on_draw(self, widget, context):
         context.set_source_rgb(0.9, 0, 0.1)  # rosso
         for x, y in self.nodes:
-            1+1# nothing
+            context.rectangle(x, y, 80, 40)
         context.fill()
 
     def save_coords(self, x, y):
