@@ -10,8 +10,8 @@ class PacketStreamAreaGUI(Gtk.Window):
         self.set_border_width(5)
 
         self.show_all()
-
-win = PacketStreamAreaGUI()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##
+##win = PacketStreamAreaGUI()
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
