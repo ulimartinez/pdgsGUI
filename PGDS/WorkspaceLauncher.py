@@ -45,6 +45,7 @@ class WorkspaceLauncher(Gtk.Window):
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
         fc.connect("selection-changed", self.on_file_selected)
+        fc.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
         fc.show_all()
 
     def on_file_selected(self, chooser):
@@ -52,8 +53,7 @@ class WorkspaceLauncher(Gtk.Window):
         if dir is not None:
             self.text.set_text(dir)
 
-
-win = WorkspaceLauncher()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##win = WorkspaceLauncher()
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
