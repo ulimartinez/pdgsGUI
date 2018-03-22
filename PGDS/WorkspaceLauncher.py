@@ -49,7 +49,7 @@ class WorkspaceLauncher(Gtk.Window):
         if dir is not None:
             self.text.set_text(dir)
 
-win = WorkspaceLauncher()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##win = WorkspaceLauncher()
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
