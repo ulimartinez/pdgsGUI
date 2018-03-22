@@ -145,12 +145,14 @@ class ProjectExportWindow(Gtk.Window):
             self.dir_name(dir)
 
     # Export file
-    def on_export_clicked(self, widget):
-        print("export action")
-
     # Export file
+    def on_export_clicked(self, widget):
+       print "Export Clicked"
+       self.hide()
+
     def on_cancel_clicked(self, widget):
-        print("cancel action")
+       self.hide()
+
 ##
 ##win = ProjectExportWindow()
 ##
