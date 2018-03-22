@@ -8,7 +8,6 @@ class WorkspaceLauncher(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Workspace Launcher")
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.dir = None
 
         self.set_default_size(200, 100)
 
@@ -28,7 +27,7 @@ class WorkspaceLauncher(Gtk.Window):
         confirm = Gtk.Button.new_with_label("Launch")
         hbox.pack_end(confirm, False, False, 10)
         cancel = Gtk.Button.new_with_label("Cancel")
-        cancel.connect("clicked", Gtk.main_quit)
+        cancel.connect("clicked", self.on_cancel_browse)
         hbox.pack_end(cancel, False, False, 10)
         vbox.pack_start(hbox, False, False, 0)
 
@@ -39,11 +38,11 @@ class WorkspaceLauncher(Gtk.Window):
             row[1] = True
             row[2] = False
 
+    def on_cancel_browse(self, widget):
+        self.hide()
+
     def on_click_browse(self, button):
-        fc = Gtk.FileChooserDialog("choose directory", self,
-            Gtk.FileChooserAction.SELECT_FOLDER,
-            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        fc = Gtk.FileChooserDialog()
         fc.connect("selection-changed", self.on_file_selected)
         fc.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
         fc.show_all()
