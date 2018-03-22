@@ -1,3 +1,4 @@
+
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -120,11 +121,9 @@ class ProjectExportWindow(Gtk.Window):
     # Export file
     def on_cancel_clicked(self, widget):
         print("cancel action")
-
-win = ProjectExportWindow()
-
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
-
-# python C:\Users\luui9\PycharmProjects\SE_gui\FileChooserWindow.py
+##
+##win = ProjectExportWindow()
+##
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
