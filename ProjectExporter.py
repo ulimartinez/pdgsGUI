@@ -56,28 +56,22 @@ class ProjectExportWindow(Gtk.Window):
 
         # Browse Select Folder
         browse2 = Gtk.Button("Browse")
-        browse2.connect("clicked", self.on_browse_clicked)
+        browse2.connect("clicked", self.on_browse2_clicked)
         grid.attach(browse2, 2, 2, 1, 1)
 
         ###############################
         # Export & Cancel
         ##############################
 
-        # Export
+        # Export btn
         export1 = Gtk.Button("Export")
         export1.connect("clicked", self.on_export_clicked)
         grid.attach(export1, 1, 3, 1, 1)
 
-        # Cancel
+        # Cancel btn
         cancel1 = Gtk.Button("Cancel")
         cancel1.connect("clicked", self.on_cancel_clicked)
         grid.attach(cancel1, 2, 3, 1, 1)
-
-
-        # Project Browse btn
-        # browse1 = Gtk.Button("Choose File")
-        # browse1.connect("clicked", self.on_file_clicked)
-        # grid.attach(browse1, 2, 1, 1, 1)    # col, row, width, height
 
     # Add Filters
     def add_filters(self, dialog):
@@ -102,16 +96,53 @@ class ProjectExportWindow(Gtk.Window):
             Gtk.FileChooserAction.SELECT_FOLDER,
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              "Select", Gtk.ResponseType.OK))
+        dialog.connect("selection-changed", self.on_file_selected)
+        dialog.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
         dialog.set_default_size(800, 400)
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Selection made: " + dialog.get_filename())
+            print("Selection made: ")
+            path = dialog.get_filename()
+            self.p_name.set_text(path)
+
             # self.gtk_entry_set_text(self.p_name, select1)
         elif response == Gtk.ResponseType.CANCEL:
             print("Action cancelled")
-
         dialog.destroy()
+
+    # on File selected
+    def on_file_selected(self, chooser):
+        dir = chooser.get_current_folder()
+        if dir is not None:
+            self.p_name(dir)
+
+    # Folder2 Selection
+    def on_browse2_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog("Please choose a folder", self,
+                                       Gtk.FileChooserAction.SELECT_FOLDER,
+                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        "Select", Gtk.ResponseType.OK))
+        dialog.connect("selection-changed", self.on_file2_selected)
+        dialog.set_action(Gtk.FileChooserAction.SELECT_FOLDER)
+        dialog.set_default_size(800, 400)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("Selection made: ")
+            path = dialog.get_filename()
+            self.dir_name.set_text(path)
+
+            # self.gtk_entry_set_text(self.p_name, select1)
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Action cancelled")
+        dialog.destroy()
+
+    # on File2 selected
+    def on_file2_selected(self, chooser):
+        dir = chooser.get_current_folder()
+        if dir is not None:
+            self.dir_name(dir)
 
     # Export file
     def on_export_clicked(self, widget):
