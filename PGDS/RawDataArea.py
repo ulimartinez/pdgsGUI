@@ -17,4 +17,4 @@ class RawDataArea(Gtk.Window):
         vbox_right.set_homogeneous(False)
 
         label = Gtk.Label("Raw data shall be displayed here")
-vbox_left.pack_start(label, True, True, 0)
+        vbox_left.pack_start(label, True, True, 0)
