@@ -29,11 +29,11 @@ class DSOverlay(Gtk.Dialog):
         projBox = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing=0)
         row0.add(projBox)
         projName = Gtk.Label("Project ")
-        projEntry = Gtk.Entry()
+        self.projEntry = Gtk.Entry()
         browse1 = Gtk.Button("Browse")
-        browse1.connect("clicked", self.on_browse_clicked)
+        browse1.connect("clicked", self.on_browse1_clicked)
         projBox.pack_start(projName,True,True,5)
-        projBox.pack_start(projEntry,True,True,5)
+        projBox.pack_start(self.projEntry,True,True,5)
         projBox.pack_start(browse1,True,True,5)
         listBox.add(row0)
 
@@ -54,17 +54,17 @@ class DSOverlay(Gtk.Dialog):
         saveBox = Gtk.Box(orientation = Gtk.Orientation.HORIZONTAL, spacing=10)
         row2.add(saveBox)
         saveLoc = Gtk.Label("Save Location ")
-        saveEntry = Gtk.Entry()
+        self.saveEntry = Gtk.Entry()
         browse2 = Gtk.Button("Browse")
-        browse2.connect("clicked", self.on_browse_clicked)
+        browse2.connect("clicked", self.on_browse2_clicked)
         saveBox.pack_start(saveLoc,True,True,5)
-        saveBox.pack_start(saveEntry,True,True,5)
+        saveBox.pack_start(self.saveEntry,True,True,5)
         saveBox.pack_start(browse2,True,True,5)
         listBox.add(row2)
 
         self.show_all()
 
-    def on_browse_clicked(self, widget):
+    def on_browse1_clicked(self, widget):
         dialog = Gtk.FileChooserDialog("Please choose a file", self,
             Gtk.FileChooserAction.OPEN,
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
@@ -73,7 +73,26 @@ class DSOverlay(Gtk.Dialog):
 
         if response == Gtk.ResponseType.OK:
             print("Open clicked")
-            print("File selected: " + dialog.get_filename())
+            fName = dialog.get_filename()
+            print("Folder selected: " + fName)
+            self.projEntry.set_text(fName)
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+
+        dialog.destroy()
+
+    def on_browse2_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog("Please choose a file", self,
+            Gtk.FileChooserAction.OPEN,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+             Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+        response = dialog.run()
+
+        if response == Gtk.ResponseType.OK:
+            print("Open clicked")
+            fName = dialog.get_filename()
+            print("Folder selected: " + fName)
+            self.saveEntry.set_text(fName)
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
 
@@ -88,3 +107,4 @@ class DSOverlay(Gtk.Dialog):
         else:
             entry = combo.get_child()
             print("Entered: %s" % entry.get_text())
+
