@@ -36,9 +36,4 @@ class DissectedStream(Gtk.Window):
         self.add(treeview)
 
     def text_edited(self, widget, path, text):
-        self.liststore[path][1] = text
-
-win = DissectedStream()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+self.liststore[path][1] = text
