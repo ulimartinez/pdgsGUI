@@ -100,7 +100,7 @@ class DragSourceIconView(Gtk.IconView):
         self.get_model().append([text, pixbuf, func])
 
 
-class DropArea(Gtlk.DrawingArea):
+class DropArea(Gtk.DrawingArea):
 
     def __init__(self):
         Gtk.DrawingArea.__init__(self)
@@ -139,7 +139,7 @@ class DropArea(Gtlk.DrawingArea):
         self.nodes.append((x, y))
 
 
-win = CanvasView()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+# win = CanvasView()
+# win.connect("delete-event", Gtk.main_quit)
+# win.show_all()
+# Gtk.main()
