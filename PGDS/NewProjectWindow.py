@@ -68,24 +68,24 @@ class NewProjectDialog(Gtk.Dialog):
         self.destroy()
             
 
-class NewProjectWindow(Gtk.Window):
-
-    def __init__(self):
-        Gtk.Window.__init__(self, title="New Project")
-
-        button = Gtk.Button("Open dialog")
-        button.connect("clicked", self.on_button_clicked)
-
-        self.add(button)
-
-    def on_button_clicked(self, widget):
-        dialog = NewProjectDialog(self)
-        response = dialog.run()
-
-        dialog.destroy()
-
-win = NewProjectWindow()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+##class NewProjectWindow(Gtk.Window):
+##
+##    def __init__(self):
+##        Gtk.Window.__init__(self, title="New Project")
+##
+##        button = Gtk.Button("Open dialog")
+##        button.connect("clicked", self.on_button_clicked)
+##
+##        self.add(button)
+##
+##    def on_button_clicked(self, widget):
+##        dialog = NewProjectDialog(self)
+##        response = dialog.run()
+##
+##        dialog.destroy()
+##
+##win = NewProjectWindow()
+##win.connect("delete-event", Gtk.main_quit)
+##win.show_all()
+##Gtk.main()
 

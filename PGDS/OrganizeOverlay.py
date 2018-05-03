@@ -48,9 +48,10 @@ class OrganizeView(Gtk.Window):
         restore.connect("clicked", self.on_click_restore)
         hbox.pack_end(restore, False, False, 10)
         confirm = Gtk.Button.new_with_label("Confirm")
+        confirm.connect("clicked", self.on_confirm_clicked)
         hbox.pack_end(confirm, False, False, 10)
         cancel = Gtk.Button.new_with_label("Cancel")
-        cancel.connect("clicked", Gtk.main_quit)
+        cancel.connect("clicked", self.on_cancel_clicked)
         hbox.pack_end(cancel, False, False, 10)
         vbox.pack_start(hbox, False, False, 0)
 
@@ -73,9 +74,9 @@ class OrganizeView(Gtk.Window):
         # print(self.liststore[path].path)
         # for row in self.liststore:
         #     row[2] = (row.path == selected_path)
+    def on_confirm_clicked(self, widget):
+       print "Confirm Clicked"
+       self.hide()
 
-
-win = OrganizeView()
-win.connect("delete-event", Gtk.main_quit)
-win.show_all()
-Gtk.main()
+    def on_cancel_clicked(self, widget):
+       self.hide()
