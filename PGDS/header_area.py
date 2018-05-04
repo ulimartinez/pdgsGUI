@@ -13,17 +13,10 @@ from gi.repository import Gtk
 class ButtonWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="PDGS")
-        self.set_default_size(1000,50)
-
-        # Create the title bar which displays the name of our system
-        hb = Gtk.HeaderBar()
-        hb.set_show_close_button(True)
-        hb.props.title = "Protocol Dissector Generator System"
-        self.set_titlebar(hb)
-
+        
+        global hbox
         hbox = Gtk.Box(spacing=6)
-        self.add(hbox)
+        
 
         # Menu buttons
         button = Gtk.Button.new_with_label("Create Project")
@@ -61,6 +54,10 @@ class ButtonWindow(Gtk.Window):
         button = Gtk.Button.new_with_mnemonic("_Open PCAP")
         button.connect("clicked", self.on_open_pcap_clicked)
         hbox.pack_start(button, True, True, 0)
+
+    def getBox(self):
+        global hbox
+        return hbox
 
     def on_create_proj_clicked(self, button):
         print("\"Create Project\" button was clicked")

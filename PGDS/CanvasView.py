@@ -13,13 +13,14 @@ from PackeInfoField import PacketInfoField
 DRAG_ACTION = Gdk.DragAction.COPY
 
 
-class CanvasView(Gtk.Window):
+class CanvasView:
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="Dissector Builder Area")
+       
 
+        global hbox
         hbox = Gtk.Box(spacing=12)
-        self.add(hbox)
+        
 
         fields = Gtk.Expander()
         fields.set_label("Fields")
@@ -73,6 +74,9 @@ class CanvasView(Gtk.Window):
         self.drop_area.drag_dest_add_text_targets()
         self.field_icon.drag_source_add_text_targets()
         self.construct_icon.drag_source_add_text_targets()
+    def getBox(self):
+        global hbox;
+        return hbox;
 
 
 class DragSourceIconView(Gtk.IconView):
@@ -108,6 +112,9 @@ class DropArea(Gtk.DrawingArea):
         self.nodes = []
         self.connect("drag-data-received", self.on_drag_data_received)
 
+    def getDrawArea(self):
+        return self
+
     def on_drag_data_received(self, widget, drag_context, x,y, data,info, time):
         self.save_coords(x, y)
         self.queue_draw()
@@ -139,7 +146,7 @@ class DropArea(Gtk.DrawingArea):
         self.nodes.append((x, y))
 
 
-# win = CanvasView()
-# win.connect("delete-event", Gtk.main_quit)
-# win.show_all()
-# Gtk.main()
+#win = CanvasView()
+#in.connect("delete-event", Gtk.main_quit)
+#win.show_all()
+#Gtk.main()
