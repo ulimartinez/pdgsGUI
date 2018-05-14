@@ -19,18 +19,22 @@ class CanvasView:
        
 
         global hbox
-        hbox = Gtk.Box(spacing=12)
+        hbox = Gtk.Box(spacing=0)
         
-
+        
         fields = Gtk.Expander()
         fields.set_label("Fields")
         fields.set_expanded(True)
         constructs = Gtk.Expander()
         constructs.set_label("Constructs")
         constructs.set_expanded(True)
+        
+        
         pallete = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        
         pallete.pack_start(fields, True, True, 0)
         pallete.pack_start(constructs, True, True, 0)
+            
 
         self.field_icon = DragSourceIconView()
         self.field_icon.add_item("Start field", "image-missing", "StartField")
@@ -54,8 +58,12 @@ class CanvasView:
 
         fields.add(self.field_icon)
         constructs.add(self.construct_icon)
-        hbox.pack_start(self.drop_area, True, True, 0)
-        hbox.pack_start(pallete, False, False, 0)
+        
+        dropAreaFrame = Gtk.Frame()
+        dropAreaFrame.add(self.drop_area)
+
+        hbox.pack_start(dropAreaFrame, False, False, 0)
+        hbox.pack_start(pallete, False, True, 0)
 
         self.add_text_targets()
 
@@ -108,6 +116,8 @@ class DropArea(Gtk.DrawingArea):
 
     def __init__(self):
         Gtk.DrawingArea.__init__(self)
+        self.set_size_request(1500,300)
+     
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
         self.nodes = []
         self.connect("drag-data-received", self.on_drag_data_received)

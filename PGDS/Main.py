@@ -1,4 +1,6 @@
 import gi
+
+
 from header_area import ButtonWindow
 from CanvasView import  CanvasView
 from ProjectNavigator import ProjectNavigatorWindow

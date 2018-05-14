@@ -10,8 +10,9 @@ class ProjectNavigatorWindow(Gtk.Window):
         self.set_default_size(100, 500)
 
         # Layout
+        global grid
         grid = Gtk.Grid()
-        self.add(grid)
+        #self.add(grid)
 
         # Workspace Label
         label = Gtk.Label()
@@ -39,9 +40,12 @@ class ProjectNavigatorWindow(Gtk.Window):
         self.p_name.set_text("Project Name")
         grid.attach(self.p_name, 1, 1, 1, 1)
 
+    def getGrid(self):
+        global grid
+        return grid
 
-##win = ProjectNavigatorWindow()
+#win = ProjectNavigatorWindow()
 ##
-##win.connect("delete-event", Gtk.main_quit)
-##win.show_all()
-##Gtk.main()
+#win.connect("delete-event", Gtk.main_quit)
+#win.show_all()
+#Gtk.main()

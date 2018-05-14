@@ -14,9 +14,11 @@ class DissectedStream(Gtk.Window):
         hb.props.title = "Dissected Stream Area"
         self.set_titlebar(hb)
 
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=0)
+        
         self.liststore = Gtk.ListStore(str, str)
-        self.liststore.append([" ", " "])
-        self.liststore.append([" ", " "])
+        self.liststore.append(["Dissected Stream Area", ""])
+        self.liststore.append(["", " "])
 
         treeview = Gtk.TreeView(model=self.liststore)
 
@@ -25,6 +27,7 @@ class DissectedStream(Gtk.Window):
         treeview.append_column(column_text)
 
         renderer_editabletext = Gtk.CellRendererText()
+
         renderer_editabletext.set_property("editable", True)
 
         column_editabletext = Gtk.TreeViewColumn(" ",
@@ -32,8 +35,12 @@ class DissectedStream(Gtk.Window):
         treeview.append_column(column_editabletext)
 
         renderer_editabletext.connect("edited", self.text_edited)
-
-        self.add(treeview)
+        self.box.pack_start(treeview, True,True,0)
+        
 
     def text_edited(self, widget, path, text):
         self.liststore[path][1] = text
+    
+    def getDissectedStreamBox(self):
+        return self.box
+

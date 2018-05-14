@@ -1,6 +1,11 @@
 import gi
 
 from CanvasView import CanvasView, DropArea, DragSourceIconView
+from ConsoleArea import ConsoleArea
+from DS_Area_View import DissectedStream
+from ProjectNavigator import ProjectNavigatorWindow
+from PacketStreamAreaGUI import PacketStreamAreaGUI
+from RawDataArea import RawDataArea
 from header_area import ButtonWindow
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
@@ -10,7 +15,7 @@ from gi.repository import Gtk
 class ListBoxWindow(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="Protocol Dissector Generator")
+        Gtk.Window.__init__(self, title="Protocol Dissector Generator System")
         self.set_border_width(10)
 
         self.box1 = Gtk.HBox()
@@ -18,54 +23,87 @@ class ListBoxWindow(Gtk.Window):
         header = ButtonWindow()
         headerBox = header.getBox()
       
-        self.box1.pack_start(headerBox, True, True, 0)
+
 
         self.box2 = Gtk.VBox()
-        self.box2.pack_start(self.box1, True, True, 10)        
-        
+        self.box2.pack_start(headerBox, True, True, 0)
+       
+        self.box2.pack_start(self.box1, True, True, 0)        
+
         layoutGrid = Gtk.Grid()
         listbox = Gtk.ListBox()
         row = Gtk.ListBoxRow()
        
-        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
-        row.add(hbox)
-        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(vbox, True, True, 0)
-        w_label = Gtk.Label("Workspace:", xalign=0)
-        p_label = Gtk.Label()
-        p_label.set_label("Project")
-
-
-        # Entries
-        p_name = Gtk.Entry()
-        p_name.set_text("Project Name")
-        vbox.pack_start(w_label, True, True, 0)
-        vbox.pack_start(p_label, True, True, 0)
-        vbox.pack_start(p_name, True, True, 0)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=5)
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+       
+        self.box2.pack_start(hbox, True, True, 0)
+        
+        navigator = ProjectNavigatorWindow()
+        navigatorWidget = navigator.getGrid()
+        
+        navigatorFrame = Gtk.Frame()
+        navigatorFrame.set_label("Project Navigator")
+        
+        navigatorFrame.add(navigatorWidget)
+        hbox.pack_start(navigatorFrame, True, True, 0)        
         
         
-        
-        listbox.add(row)
-        layoutGrid.attach(listbox, 0,0,1,1)
-        
-
         canvas = CanvasView()
         canvasBox = canvas.getBox()
-        layoutGrid.attach(canvasBox, 3,0,1,1)
-        drawArea = DropArea()
-        drawWidget = drawArea.getDrawArea()
-        layoutGrid.attach(drawWidget, 2,0,1,1)
+       
+
+
+        dissectorFrame = Gtk.Frame()
+        dissectorFrame.set_label("Dissector Builder Area")
+        dissectorFrame.set_size_request(300,300)
+        dissectorFrame.add(canvasBox)
+        
+        vbox.pack_start(dissectorFrame, True, True, 0)
+        hbox.pack_start(vbox,True,True,0)
+
+
+
+
+        dissectedStream = DissectedStream()
+        dissectedStreamWidget = dissectedStream.getDissectedStreamBox()
+        
+        areaHbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
+        
+        
         
 
+        packetStream = PacketStreamAreaGUI()
+        packetStreamWidget = packetStream.getPacketArea()
         
+        areaHbox.pack_start(packetStreamWidget, True, True, 0)
+
+
+        areaHbox.pack_start(dissectedStreamWidget, True, True, 0)
+        
+        rawData = RawDataArea()
+        rawDataWidget = rawData.getRawDataBox()
+            
+        consoleArea = ConsoleArea()
+        consoleWidget = consoleArea.getConsoleView()
+        
+    
+
+        areaHbox.pack_start(rawDataWidget,True,True,0)
+        areaHbox.pack_start(consoleWidget,True,True,0)
+        
+        infoLayoutFrame = Gtk.Frame()
+        infoLayoutFrame.add(areaHbox)
+        infoLayoutFrame.set_size_request(-1,100)
+        vbox.pack_start(infoLayoutFrame,True,True,0)
+
+
+      
         self.box2.pack_start(layoutGrid, True, True, 0)
         
 
 
-
-
-
-
+       
 
 
       

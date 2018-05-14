@@ -2,16 +2,23 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-class FileChooserWindow(Gtk.Window):
+class ConsoleArea(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="Console Area")
-        self.set_border_width(25)
-        self.set_size_request(800, 150)
+       
 
-        # Layout
-        grid = Gtk.Grid()
-        self.add(grid)
+        self.box = Gtk.Box()
+        
+        self.textview = Gtk.TextView()
+        self.textbuffer = self.textview.get_buffer()
+        self.textbuffer.set_text("This is the console area")
+        
+
+        self.box.pack_start(self.textview,True,True,0)
+
+
+    def getConsoleView(self):
+        return self.box
 
 ##
 ##win = FileChooserWindow()
