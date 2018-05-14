@@ -5,16 +5,46 @@ from gi.repository import Gtk
 class RawDataArea(Gtk.Window):
 
     def __init__(self):
-        Gtk.Window.__init__(self, title="Raw Data Area")
-        box_outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        self.add(box_outer)
+        Gtk.Window.__init__(self, title="CellRendererText Example")
 
-        hbox = Gtk.Box(spacing=10)
-        hbox.set_homogeneous(False)
-        vbox_left = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        vbox_left.set_homogeneous(False)
-        vbox_right = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        vbox_right.set_homogeneous(False)
+        self.set_default_size(400, 200)
 
-        label = Gtk.Label("Raw data shall be displayed here")
-        vbox_left.pack_start(label, True, True, 0)
+        hb = Gtk.HeaderBar()
+        hb.set_show_close_button(True)
+        hb.props.title = "Dissected Stream Area"
+        self.set_titlebar(hb)
+
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=0)
+        
+        self.liststore = Gtk.ListStore(str, str)
+        self.liststore.append(["Raw Data Area",""])
+        self.liststore.append(["", " "])
+
+        treeview = Gtk.TreeView(model=self.liststore)
+
+        renderer_text = Gtk.CellRendererText()
+        column_text = Gtk.TreeViewColumn(" ", renderer_text, text=0)
+        treeview.append_column(column_text)
+
+        renderer_editabletext = Gtk.CellRendererText()
+
+        renderer_editabletext.set_property("editable", True)
+
+        column_editabletext = Gtk.TreeViewColumn(" ",
+            renderer_editabletext, text=1)
+        treeview.append_column(column_editabletext)
+
+        renderer_editabletext.connect("edited", self.text_edited)
+        self.box.pack_start(treeview, True,True,0)
+        
+
+    def text_edited(self, widget, path, text):
+        self.liststore[path][1] = text
+    
+    def getRawDataBox(self):
+        return self.box
+
+
+
+
+

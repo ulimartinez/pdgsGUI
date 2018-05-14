@@ -1,38 +1,58 @@
 import gi
-from Menu import Menu
-from ProjectNavigator import ProjectNavigatorWindow
 gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, Pango
 
-from gi.repository import Gtk
+class SearchDialog(Gtk.Dialog):
 
-class MainGui(Gtk.Window):
+    def __init__(self, parent):
+        Gtk.Dialog.__init__(self, "Search", parent,
+            Gtk.DialogFlags.MODAL, buttons=(
+            Gtk.STOCK_FIND, Gtk.ResponseType.OK,
+            Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL))
+
+        box = self.get_content_area()
+
+        label = Gtk.Label("Insert text you want to search for:")
+        box.add(label)
+
+        self.entry = Gtk.Entry()
+        box.add(self.entry)
+
+        self.show_all()
+
+class TextViewWindow(Gtk.Window):
 
     def __init__(self):
+        Gtk.Window.__init__(self, title="CellRendererText Example")
+        self.frame = Gtk.Frame()
+        self.frame.set_label("Test")
+        self.box = Gtk.Box()
+
+        self.add(self.frame)
+        self.frame.add(self.box)
+        
+
+        
+
+        self.textview = Gtk.TextView()
+        self.textbuffer = self.textview.get_buffer()
+        self.textbuffer.set_text("This is some text inside of a Gtk.TextView. "
+            )
+        
+
+        self.box.pack_start(self.textview,True,True,0)
 
 
-        Gtk.Window.__init__(self, title="Protocol Dissector Generator")
-        win = Menu()
-        window = win.getWindow();
-        window.add(Gtk.Label("Test"))
+    def getViewPacketStream(self):
+        return self.box
 
-        grid = Gtk.Grid()
-        self.add(grid)
+      
 
-        button1 = Gtk.Button(label="Button 1")
-        button2 = Gtk.Button(label="Button 2")
-        button3 = Gtk.Button(label="Button 3")
-        button4 = Gtk.Button(label="Button 4")
-        button5 = Gtk.Button(label="Button 5")
-        button6 = Gtk.Button(label="Button 6")
+    
 
-        grid.add(button1)
-        grid.attach_next_to(window,button1, Gtk.PositionType.BOTTOM, 2, 1)
-        grid.attach_next_to(button3, button1, Gtk.PositionType.BOTTOM, 1, 2)
-        grid.attach_next_to(button4, button3, Gtk.PositionType.RIGHT, 2, 1)
-        grid.attach(button5, 1, 2, 1, 1)
-        grid.attach_next_to(button6, button5, Gtk.PositionType.RIGHT, 1, 1)
+ 
 
-win = MainGui()
-win.connect("delete-event", Gtk.main_quit)
+win = TextViewWindow()
+win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
