@@ -47,7 +47,6 @@ class ListBoxWindow(Gtk.Window):
         
         listbox.add(row)
         layoutGrid.attach(listbox, 0,0,1,1)
-        
 
         canvas = CanvasView()
         canvasBox = canvas.getBox()

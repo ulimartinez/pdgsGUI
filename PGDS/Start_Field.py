@@ -34,4 +34,4 @@ class CellRendererTextWindow(Gtk.Window):
         self.add(treeview)
 
     def text_edited(self, widget, path, text):
-self.liststore[path][1] = text
+        self.liststore[path][1] = text
