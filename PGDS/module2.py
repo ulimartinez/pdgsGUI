@@ -47,8 +47,7 @@ class ListBoxWindow(Gtk.Window):
         
         navigatorFrame.add(navigatorWidget)
         hbox.pack_start(navigatorFrame, True, True, 0)        
-        
-        
+
         canvas = CanvasView()
         canvasBox = canvas.getBox()
        

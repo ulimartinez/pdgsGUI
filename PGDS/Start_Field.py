@@ -15,7 +15,6 @@ class CellRendererTextWindow(Gtk.Window):
         self.liststore.append(["Dependant Protocol Name", " Enter name "])
         self.liststore.append(["Dependancy Pattern", " Integer/Range/String "])
 
-
         treeview = Gtk.TreeView(model=self.liststore)
 
         renderer_text = Gtk.CellRendererText()

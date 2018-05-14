@@ -54,7 +54,6 @@ class CanvasView:
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.drop_area = DropArea()
-        self.drop_area.connect("draw", self.drop_area.on_draw)
 
         fields.add(self.field_icon)
         constructs.add(self.construct_icon)
@@ -62,8 +61,8 @@ class CanvasView:
         dropAreaFrame = Gtk.Frame()
         dropAreaFrame.add(self.drop_area)
 
-        hbox.pack_start(dropAreaFrame, False, False, 0)
-        hbox.pack_start(pallete, False, True, 0)
+        hbox.pack_start(dropAreaFrame, True, True, 0)
+        hbox.pack_start(pallete, True, False, 0)
 
         self.add_text_targets()
 
@@ -112,10 +111,10 @@ class DragSourceIconView(Gtk.IconView):
         self.get_model().append([text, pixbuf, func])
 
 
-class DropArea(Gtk.DrawingArea):
+class DropArea(Gtk.Fixed):
 
     def __init__(self):
-        Gtk.DrawingArea.__init__(self)
+        Gtk.Fixed.__init__(self)
         self.set_size_request(1500,300)
      
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
@@ -129,6 +128,7 @@ class DropArea(Gtk.DrawingArea):
         self.save_coords(x, y)
         self.queue_draw()
         text = data.get_text()
+        field = None
         if "Start" in text:
             field = StartField()
             field.show_all()
@@ -145,12 +145,7 @@ class DropArea(Gtk.DrawingArea):
             field = PacketInfoField()
             field.show_all()
         print("Received text: %s" % text)
-
-    def on_draw(self, widget, context):
-        context.set_source_rgb(0.9, 0, 0.1)  # rosso
-        for x, y in self.nodes:
-            context.rectangle(x, y, 80, 40)
-        context.fill()
+        self.put(field, x, y)
 
     def save_coords(self, x, y):
         self.nodes.append((x, y))
