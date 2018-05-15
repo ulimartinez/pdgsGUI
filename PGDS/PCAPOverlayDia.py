@@ -58,6 +58,7 @@ class PCAPOverlayDia(Gtk.Dialog):
     def on_open_clicked(self, widget):
         dissector = self.parent.protocol.dissector
         self.parent.packetStreamWidget.textbuffer.set_text(dissector.get_packets(pcap=self.pcapNameE.get_text()))
+        self.parent.dissectedStreamWidget.textbuffer.set_text(dissector.dissect_packet(pcap=self.pcapNameE.get_text()))
         self.destroy()
 
     def on_cancel_clicked(self, widget):

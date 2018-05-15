@@ -58,23 +58,16 @@ class ListBoxWindow(Gtk.Window):
         vbox.pack_start(dissectorFrame, True, True, 0)
         hbox.pack_start(vbox,True,True,0)
 
-
-
-
-        dissectedStream = DissectedStream()
-        dissectedStreamWidget = dissectedStream.getDissectedStreamBox()
+        self.dissectedStreamWidget = DissectedStream()
         
         areaHbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=50)
-        
-        
-        
 
         self.packetStreamWidget = PacketStreamAreaGUI()
         
         areaHbox.pack_start(self.packetStreamWidget, True, True, 0)
 
 
-        areaHbox.pack_start(dissectedStreamWidget, True, True, 0)
+        areaHbox.pack_start(self.dissectedStreamWidget, True, True, 0)
         
         rawData = RawDataArea()
         rawDataWidget = rawData.getRawDataBox()
