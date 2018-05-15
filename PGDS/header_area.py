@@ -107,7 +107,7 @@ class ButtonWindow(Gtk.Box):
 
     def on_open_pcap_clicked(self, button):
         print("\"Open PCAP\" button was clicked")
-        dialog = PCAPOverlayDia(self)
+        dialog = PCAPOverlayDia(self.get_toplevel())
         response = dialog.run()
 
         dialog.destroy()

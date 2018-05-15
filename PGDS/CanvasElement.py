@@ -20,8 +20,8 @@ class CanvasElement(Gtk.Box):
         title_box.pack_end(mini_button, False, False, 5)
         label_box = Gtk.EventBox()
         label_box.connect("button-press-event", self.on_elem_click)
-        label = Gtk.Label(title)
-        label_box.add(label)
+        self.label = Gtk.Label(title)
+        label_box.add(self.label)
         title_box.pack_start(label_box, True, True, 10)
         self.pack_start(title_box, True, False, 0)
 
@@ -51,4 +51,4 @@ class CanvasElement(Gtk.Box):
             connector = dtree.links[-1]
             connector.dest = self
             canvas_view.selecting_dest = False
-            print(dtree.links)
+            canvas_view.queue_draw()

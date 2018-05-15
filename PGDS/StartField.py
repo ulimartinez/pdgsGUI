@@ -135,6 +135,7 @@ class Field(CanvasElement):
 
     def on_name_changed(self, entry):
         self.get_toplevel().protocol.dissector.dtree.nodes[self.i].name = entry.get_text()
+        self.label.set_text("Field [{}]".format(entry.get_text()))
 
     def on_description_changed(self, entry):
         self.get_toplevel().protocol.dissector.dtree.nodes[self.i].description = entry.get_text()

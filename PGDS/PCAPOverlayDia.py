@@ -5,7 +5,7 @@ from gi.repository import Gtk
 class PCAPOverlayDia(Gtk.Dialog):
 
     def __init__(self, parent):
-        Gtk.Dialog.__init__(self,"PCAP", parent, 0,)
+        Gtk.Dialog.__init__(self, "PCAP", parent, 0)
 
         self.set_default_size(350,170)
         
@@ -66,6 +66,10 @@ class PCAPOverlayDia(Gtk.Dialog):
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
+        filter_pcap = Gtk.FileFilter()
+        filter_pcap.set_name("Capture files")
+        filter_pcap.add_pattern("*.pcap")
+        dialog.add_filter(filter_pcap)
         self.add_filters(dialog)
 
         response = dialog.run()
@@ -73,6 +77,7 @@ class PCAPOverlayDia(Gtk.Dialog):
             print("Open clicked")
             path = dialog.get_filename()
             self.pcapNameE.set_text(path)
+            dialog.destroy()
             
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
