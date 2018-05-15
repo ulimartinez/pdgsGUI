@@ -1,3 +1,4 @@
+from builder.Construct import ConnectorConstruct
 import gi
 gi.require_version('Gtk', '3.0')
 
@@ -39,12 +40,15 @@ class CanvasElement(Gtk.Box):
 
     def on_elem_click(self, event, event2):
         canvas_view = self.get_parent().get_parent().get_parent()
+        dtree = self.get_toplevel().protocol.dissector.dtree
         if canvas_view.selecting_src:
-            print("Add connector src")
-            # TODO: add connector source
+            connector = ConnectorConstruct()
+            connector.src = self
+            dtree.links.append(connector)
             canvas_view.selecting_src = False
             canvas_view.selecting_dest = True
         elif canvas_view.selecting_dest:
-            print("Add connector destination")
-            # TODO: add connector destination
+            connector = dtree.links[-1]
+            connector.dest = self
             canvas_view.selecting_dest = False
+            print(dtree.links)

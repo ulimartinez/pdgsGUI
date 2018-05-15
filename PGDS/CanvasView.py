@@ -8,7 +8,6 @@ from PackeInfoField import PacketInfoField
 from builder.Construct import *
 from field.Field import *
 
-
 (TARGET_ENTRY_TEXT, TARGET_ENTRY_PIXBUF) = range(2)
 (COLUMN_TEXT, COLUMN_PIXBUF) = range(2)
 
@@ -57,6 +56,7 @@ class CanvasView(Gtk.Box):
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.drop_area = DropArea()
+        self.drop_area.connect("draw", self.drop_area.on_draw)
 
         fields.add(self.field_icon)
         constructs.add(self.construct_icon)
@@ -158,6 +158,20 @@ class DropArea(Gtk.Fixed):
         dtree = self.get_toplevel().protocol.dissector.dtree
         field.i = len(dtree.nodes)
         dtree.add_construct(construct)
+
+    def on_draw(self, widget, context):
+        dtree = self.get_toplevel().protocol.dissector.dtree
+
+        context.set_source_rgb(0.9, 0, 0.1)  # rosso
+        for link in dtree.links:
+            if link.dest is not None:
+                x1, y1 = link.src.translate_coordinates(
+                    self, link.src.get_allocated_width() / 2,
+                    link.src.get_allocated_height())
+                x2, y2 = link.dest.translate_coordinates(self, link.dest.get_allocated_width() / 2, 10)
+                context.move_to(x1, y1)
+                context.line_to(x2, y2)
+                context.stroke()
 
     def save_coords(self, x, y):
         self.nodes.append((x, y))
