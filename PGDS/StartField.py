@@ -15,6 +15,7 @@ class Field(CanvasElement):
         protocolNameLabel = Gtk.Label()
         protocolNameLabel.set_text("Name")
         protocolNameEntry = Gtk.Entry()
+        protocolNameEntry.connect("changed", self.on_name_changed)
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -41,6 +42,7 @@ class Field(CanvasElement):
         protocolDescriptionLabel = Gtk.Label()
         protocolDescriptionLabel.set_text("Description")
         protocolDescriptionEntry = Gtk.Entry()
+        protocolDescriptionEntry.connect("changed", self.on_description_changed)
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -64,29 +66,31 @@ class Field(CanvasElement):
 
         self.listbox.add(row)
 
-        dependencyPatternLabel = Gtk.Label()
-        dependencyPatternLabel.set_text("Data Type")
-        dependencyPatternEntry = Gtk.Entry()
+        protocol_type_label = Gtk.Label()
+        protocol_type_label.set_text("Data Type")
+        protocol_type_entry = Gtk.Entry()
+        protocol_type_entry.connect("changed", self.on_data_changed)
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         row.add(hbox)
 
-        hbox.pack_start(dependencyPatternLabel, True, True, 0)
-        hbox.pack_start(dependencyPatternEntry, True, True, 0)
+        hbox.pack_start(protocol_type_label, True, True, 0)
+        hbox.pack_start(protocol_type_entry, True, True, 0)
 
         self.listbox.add(row)
 
-        dependencyPatternLabel = Gtk.Label()
-        dependencyPatternLabel.set_text("Size")
-        dependencyPatternEntry = Gtk.Entry()
+        protocol_size_label = Gtk.Label()
+        protocol_size_label.set_text("Size")
+        protocol_size_entry = Gtk.Entry()
+        protocol_size_entry.connect("changed", self.on_size_changed)
 
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
         row.add(hbox)
 
-        hbox.pack_start(dependencyPatternLabel, True, True, 0)
-        hbox.pack_start(dependencyPatternEntry, True, True, 0)
+        hbox.pack_start(protocol_size_label, True, True, 0)
+        hbox.pack_start(protocol_size_entry, True, True, 0)
 
         self.listbox.add(row)
 
@@ -129,6 +133,18 @@ class Field(CanvasElement):
 
         self.listbox.add(row)
 
+    def on_name_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].name = entry.get_text()
+
+    def on_description_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].description = entry.get_text()
+
+    def on_data_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].data_type = entry.get_text()
+
+    def on_size_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].size = int(entry.get_text())
+
 
 class StartField(CanvasElement):
 
@@ -141,6 +157,7 @@ class StartField(CanvasElement):
         protocolNameLabel.set_text("Protocol Name")
         protocolNameLabel.set_editable(False)
         protocolNameEntry = Gtk.Entry()
+        protocolNameEntry.connect("changed", self.on_name_changed)
         
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -170,6 +187,7 @@ class StartField(CanvasElement):
         dependentProtocolNameLabel.set_text("Dependent Protocol Name")
         dependentProtocolNameLabel.set_editable(False)
         dependentProtocolNameEntry = Gtk.Entry()
+        dependentProtocolNameEntry.connect("changed", self.on_dependency_changed)
         
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -184,6 +202,7 @@ class StartField(CanvasElement):
         dependencyPatternLabel.set_text("Dependency Pattern")
         dependencyPatternLabel.set_editable(False)
         dependencyPatternEntry = Gtk.Entry()
+        dependencyPatternEntry.connect("changed", self.on_pattern_changed)
         
         row = Gtk.ListBoxRow()
         hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
@@ -194,8 +213,13 @@ class StartField(CanvasElement):
  
         self.listbox.add(row)
 
+    def on_name_changed(self, entry):
+        self.get_toplevel().protocol.name = entry.get_text()
 
-# win = StartField()
-# win.connect("delete-event", Gtk.main_quit)
-# win.show_all()
-# Gtk.main()
+    def on_dependency_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].dependency = entry.get_text()
+        print(self.get_toplevel().protocol.dissector.dtree.nodes)
+
+    def on_pattern_changed(self, entry):
+        self.get_toplevel().protocol.dissector.dtree.nodes[self.i].pattern = entry.get_text()
+

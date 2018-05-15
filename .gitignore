@@ -6,3 +6,4 @@
 /PGDS/PGDS.VC.VC.opendb
 *.pyc
 /PGDS/PGDS.VC.db
+*/*.lua

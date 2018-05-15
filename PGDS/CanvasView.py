@@ -5,6 +5,8 @@ from StartField import StartField, Field
 from EndField import EndField
 from ReferenceListWin import ReferenceListWin
 from PackeInfoField import PacketInfoField
+from builder.Construct import *
+from field.Field import *
 
 
 (TARGET_ENTRY_TEXT, TARGET_ENTRY_PIXBUF) = range(2)
@@ -13,27 +15,28 @@ from PackeInfoField import PacketInfoField
 DRAG_ACTION = Gdk.DragAction.COPY
 
 
-class CanvasView:
+class CanvasView(Gtk.Box):
 
     def __init__(self):
-       
+        Gtk.Box.__init__(self, spacing=0)
+        self.selecting_src = False
+        self.selecting_dest = False
 
-        global hbox
-        hbox = Gtk.Box(spacing=0)
-        
-        
         fields = Gtk.Expander()
         fields.set_label("Fields")
         fields.set_expanded(True)
         constructs = Gtk.Expander()
         constructs.set_label("Constructs")
         constructs.set_expanded(True)
-        
-        
+
         pallete = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         
         pallete.pack_start(fields, True, True, 0)
         pallete.pack_start(constructs, True, True, 0)
+        connector = Gtk.Button("Connector")
+        pallete.pack_end(connector, False, False, 0)
+        connector.connect("clicked", self.on_connector_click)
+
             
 
         self.field_icon = DragSourceIconView()
@@ -50,7 +53,7 @@ class CanvasView:
 
         self.construct_icon = DragSourceIconView()
         self.construct_icon.add_item("Decision", "help-about", "StartField")
-        self.construct_icon.add_item("Decision", "help-about", "StartField")
+        self.construct_icon.add_item("Connector", "help-about", "StartField")
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.construct_icon.add_item("Decision", "help-about", "StartField")
         self.drop_area = DropArea()
@@ -61,8 +64,8 @@ class CanvasView:
         dropAreaFrame = Gtk.Frame()
         dropAreaFrame.add(self.drop_area)
 
-        hbox.pack_start(dropAreaFrame, True, True, 0)
-        hbox.pack_start(pallete, True, False, 0)
+        self.pack_start(dropAreaFrame, True, True, 0)
+        self.pack_start(pallete, True, False, 0)
 
         self.add_text_targets()
 
@@ -81,9 +84,10 @@ class CanvasView:
         self.drop_area.drag_dest_add_text_targets()
         self.field_icon.drag_source_add_text_targets()
         self.construct_icon.drag_source_add_text_targets()
-    def getBox(self):
-        global hbox;
-        return hbox;
+
+    def on_connector_click(self, event):
+        self.selecting_src = True
+        print("Selecting src")
 
 
 class DragSourceIconView(Gtk.IconView):
@@ -115,7 +119,7 @@ class DropArea(Gtk.Fixed):
 
     def __init__(self):
         Gtk.Fixed.__init__(self)
-        self.set_size_request(1500,300)
+        self.set_size_request(1500, 300)
      
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], DRAG_ACTION)
         self.nodes = []
@@ -129,15 +133,19 @@ class DropArea(Gtk.Fixed):
         self.queue_draw()
         text = data.get_text()
         field = None
+        construct = None
         if "Start" in text:
             field = StartField()
             field.show_all()
+            construct = StartConstruct()
         elif "End" in text:
             field = EndField()
             field.show_all()
+            construct = EndConstruct()
         elif "field" in text:
             field = Field()
             field.show_all()
+            construct = FieldConstruct()
         elif "list" in text:
             field = ReferenceListWin()
             field.show_all()
@@ -146,6 +154,10 @@ class DropArea(Gtk.Fixed):
             field.show_all()
         print("Received text: %s" % text)
         self.put(field, x, y)
+
+        dtree = self.get_toplevel().protocol.dissector.dtree
+        field.i = len(dtree.nodes)
+        dtree.add_construct(construct)
 
     def save_coords(self, x, y):
         self.nodes.append((x, y))

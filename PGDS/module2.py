@@ -1,5 +1,5 @@
 import gi
-
+from builder.Protocol import Protocol
 from CanvasView import CanvasView, DropArea, DragSourceIconView
 from ConsoleArea import ConsoleArea
 from DS_Area_View import DissectedStream
@@ -16,14 +16,12 @@ class ListBoxWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="Protocol Dissector Generator System")
+        self.protocol = Protocol("Awesome")
         self.set_border_width(10)
 
         self.box1 = Gtk.HBox()
         
-        header = ButtonWindow()
-        headerBox = header.getBox()
-      
-
+        headerBox = ButtonWindow()
 
         self.box2 = Gtk.VBox()
         self.box2.pack_start(headerBox, True, True, 0)
@@ -48,8 +46,7 @@ class ListBoxWindow(Gtk.Window):
         navigatorFrame.add(navigatorWidget)
         hbox.pack_start(navigatorFrame, True, True, 0)        
 
-        canvas = CanvasView()
-        canvasBox = canvas.getBox()
+        canvasBox = CanvasView()
        
 
 

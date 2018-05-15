@@ -9,6 +9,7 @@ class CanvasElement(Gtk.Box):
     def __init__(self, title):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
+        self.i = 0
         title_box = Gtk.Box()
         del_button = Gtk.Button.new_with_label("X")
         mini_button = Gtk.Button.new_with_label("-")
@@ -37,5 +38,13 @@ class CanvasElement(Gtk.Box):
         self.destroy()
 
     def on_elem_click(self, event, event2):
-        print(event.get_toplevel())
-        print(event2)
+        canvas_view = self.get_parent().get_parent().get_parent()
+        if canvas_view.selecting_src:
+            print("Add connector src")
+            # TODO: add connector source
+            canvas_view.selecting_src = False
+            canvas_view.selecting_dest = True
+        elif canvas_view.selecting_dest:
+            print("Add connector destination")
+            # TODO: add connector destination
+            canvas_view.selecting_dest = False
