@@ -8,6 +8,7 @@ class PCAPOverlayDia(Gtk.Dialog):
         Gtk.Dialog.__init__(self, "PCAP", parent, 0)
 
         self.set_default_size(350,170)
+        self.parent = parent
         
         self.set_border_width(5)
         createLabel = Gtk.Label("Open a PCAP file")
@@ -43,7 +44,7 @@ class PCAPOverlayDia(Gtk.Dialog):
         buttonsBox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         row03.add(buttonsBox)
         openButton = Gtk.Button("Open")
-        #openButton.connect("clicked", self.on_create_clicked)
+        openButton.connect("clicked", self.on_open_clicked)
         cancelButton = Gtk.Button("Cancel")
         cancelButton.connect("clicked", self.on_cancel_clicked)
         emptyLabel02 = Gtk.Label("")
@@ -54,8 +55,11 @@ class PCAPOverlayDia(Gtk.Dialog):
 
         self.show_all()
 
-    def on_create_clicked(self, widget):
-        print("Create button was clicked")
+    def on_open_clicked(self, widget):
+        dissector = self.parent.protocol.dissector
+        self.parent.packetStreamWidget.textbuffer.set_text(dissector.get_packets(pcap=self.pcapNameE.get_text()))
+        self.destroy()
+
     def on_cancel_clicked(self, widget):
         print("Cancel button was clicked. Dialog window closing")
         self.destroy()
@@ -74,7 +78,6 @@ class PCAPOverlayDia(Gtk.Dialog):
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
             path = dialog.get_filename()
             self.pcapNameE.set_text(path)
             dialog.destroy()

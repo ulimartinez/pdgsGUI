@@ -69,10 +69,9 @@ class ListBoxWindow(Gtk.Window):
         
         
 
-        packetStream = PacketStreamAreaGUI()
-        packetStreamWidget = packetStream.getPacketArea()
+        self.packetStreamWidget = PacketStreamAreaGUI()
         
-        areaHbox.pack_start(packetStreamWidget, True, True, 0)
+        areaHbox.pack_start(self.packetStreamWidget, True, True, 0)
 
 
         areaHbox.pack_start(dissectedStreamWidget, True, True, 0)
